@@ -45,20 +45,20 @@ class _BmiUiState extends State<BmiUi> {
           ),
           ElevatedButton(
             onPressed: () {},
-            child: Text('คำนวณ BMI', style: TextStyle(color: Colors.white)),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.deepOrange,
               fixedSize: Size(MediaQuery.of(context).size.width, 50),
             ),
+            child: Text('คำนวณ BMI', style: TextStyle(color: Colors.white)),
           ),
           SizedBox(height: 10),
           ElevatedButton(
             onPressed: () {},
-            child: Text('คำนวณ BMI', style: TextStyle(color: Colors.white)),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.grey,
               fixedSize: Size(MediaQuery.of(context).size.width, 50),
             ),
+            child: Text('คำนวณ BMI', style: TextStyle(color: Colors.white)),
           ),
           Container(
             width: MediaQuery.of(context).size.width,
