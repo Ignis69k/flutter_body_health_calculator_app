@@ -8,11 +8,14 @@ class BmrUi extends StatefulWidget {
 }
 
 class _BmrUiState extends State<BmrUi> {
-  int _gender = 1; // 1 = ชาย, 2 = หญิง
+  //int _gender = 1; // 1 = ชาย, 2 = หญิง
   
   TextEditingController weightCtrl = TextEditingController();
   TextEditingController heightCtrl = TextEditingController();
   TextEditingController ageCtrl = TextEditingController();
+
+  String bmrValue = '0.00';
+  String gender = 'ชาย';
 
   @override
   Widget build(BuildContext context) {
@@ -55,22 +58,22 @@ class _BmrUiState extends State<BmrUi> {
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                        setState(() { _gender = 1; });
+                        setState(() { gender = 'ชาย'; });
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         decoration: BoxDecoration(
-                          color: _gender == 1 ? Colors.blue[100] : Colors.white,
+                          color: gender == 'ชาย' ? Colors.blue[100] : Colors.white,
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                            color: _gender == 1 ? Colors.blue[100]! : Colors.grey[300]!,
+                            color: gender == 'ชาย' ? Colors.blue[100]! : Colors.grey[300]!,
                           ),
                         ),
                         child: Center(
                           child: Text(
                             'ชาย',
                             style: TextStyle(
-                              color: _gender == 1 ? Colors.blue[800] : Colors.black87,
+                              color: gender == 'ชาย' ? Colors.blue[800] : Colors.black87,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -82,22 +85,22 @@ class _BmrUiState extends State<BmrUi> {
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                        setState(() { _gender = 2; });
+                        setState(() { gender = 'หญิง'; });
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         decoration: BoxDecoration(
-                          color: _gender == 2 ? Colors.pink[100] : Colors.white,
+                          color: gender == 'หญิง' ? Colors.pink[100] : Colors.white,
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                            color: _gender == 2 ? Colors.pink[100]! : Colors.grey[300]!,
+                            color: gender == 'หญิง' ? Colors.pink[100]! : Colors.grey[300]!,
                           ),
                         ),
                         child: Center(
                           child: Text(
                             'หญิง',
                             style: TextStyle(
-                              color: _gender == 2 ? Colors.pink[800] : Colors.black87,
+                              color: gender == 'หญิง' ? Colors.pink[800] : Colors.black87,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -189,7 +192,29 @@ class _BmrUiState extends State<BmrUi> {
               const SizedBox(height: 25),
               ElevatedButton(
                 onPressed: () {
-                  // Add calculation logic if needed
+                  if(weightCtrl.text.isEmpty || heightCtrl.text.isEmpty || ageCtrl.text.isEmpty){
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('กรุณากรอกข้อมูลให้ครบถ้วน'),
+                        backgroundColor: Colors.red,
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                    return;
+                  }
+                  double weight = double.parse(weightCtrl.text);
+                  double height = double.parse(heightCtrl.text);
+                  int age = int.parse(ageCtrl.text);
+
+                  double bmr = 0;
+                  if(gender == 'ชาย'){
+                    bmr = 66.5 + (13.75 * weight) + (5.003 * height) - (6.755 * age);
+                  }else{
+                    bmr = 655.1 + (9.563 * weight) + (1.850 * height) - (4.676 * age);
+                  }
+                  setState(() {
+                    
+                  });
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFF75B25), // deep orange
@@ -211,7 +236,7 @@ class _BmrUiState extends State<BmrUi> {
                     weightCtrl.clear();
                     heightCtrl.clear();
                     ageCtrl.clear();
-                    _gender = 1;
+                    gender = 'ชาย';
                   });
                 },
                 style: ElevatedButton.styleFrom(
@@ -241,8 +266,8 @@ class _BmrUiState extends State<BmrUi> {
                       'BMR',
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black87),
                     ),
-                    const Text(
-                      '0.00',
+                    Text(
+                      bmrValue,
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
